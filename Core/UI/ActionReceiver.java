@@ -1,13 +1,3 @@
-package task054_Tasks.UI;
-
-import task054_Tasks.Core.MVP.Presenters.FilePresenter;
-import task054_Tasks.Core.MVP.Presenters.Actions.AddItemAction;
-import task054_Tasks.Core.MVP.Presenters.Actions.GetItemAction;
-import task054_Tasks.Core.MVP.Presenters.Actions.GetListAction;
-import task054_Tasks.Core.MVP.Presenters.Actions.EditItemAction;
-import task054_Tasks.Core.MVP.Presenters.Actions.RemoveItemAction;
-import task054_Tasks.Core.service.Tasks;
-
 public class ActionReceiver {
     private Tasks tasks;
     private FilePresenter filePresenter;
