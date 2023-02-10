@@ -22,5 +22,3 @@ public class RemoveItemAction extends GetItemAction implements ChangeActionInter
         }
     }
 }
-Footer
-© 2023 GitHub, Inc.
