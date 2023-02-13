@@ -1,0 +1,110 @@
+# ДЗ №5 - Изучите ваш код к семинару №2, выделите комментариями ошибки в нем
+# (не соответствие ООП или SOLID принципам) и предложите идеи по его улучшению
+
+Для выполнения принципов ООП необходимо:
+
+1. Создать ОБЩИЙ  интерфейс :
+
+public interface Drink {
+   
+    List<ProductNameEnum> getListProducts() ;
+    
+}
+
+2. На основе него реализовать(implements)общий класс СommonDrink, который будет выносить все общие элементы(абстрактные методы), для создания отдельно взятого напитка:
+
+public class СommonDrink implements Drink {
+    
+    @Override
+    public List<ProductNameEnum> getListProducts() {
+        return listOfProducts;
+    }
+
+
+    public static void setListOfProducts(List<ProductNameEnum> Products) {
+        listOfProducts = Products;
+    }
+}
+
+
+3. Теперь, для того чтобы добавить новый напиток, необходимо создать новый класс , сделать его наследником Drink через extend  и все классы наследники от Drink  вложить в папку ЕxtendDrink:
+
+public class Aqwa_1_L extend Drink {
+    private static List<ProductNameEnum> listOfProducts = Arrays.asList(
+        AQWA_1_L
+    );
+}
+
+public class Borjomi_0_5_L extend Drink {
+    private static List<ProductNameEnum> listOfProducts = Arrays.asList(
+        BORJOMI_0_5_L
+    );
+}
+
+public class Latte extend Drink{
+    private static List<ProductNameEnum> listOfProducts = Arrays.asList(
+        LATTE,
+        SUGAR
+    );
+}
+
+public class Cappuccino extend Drink {
+    private static List<ProductNameEnum> listOfProducts = Arrays.asList(
+        CAPPUCCINO,
+        SUGAR
+    );
+}
+
+4. Создать отдельный абстракный класс Menu, который будет выносить все общие элементы (абстрактные метды), необходимые для создания отдельно взятого меню, например для "MenuHotDrink" и для "MenuWaterNonCarbonzted". 
+
+public enum Menu {
+    
+    private final Drink Drink;
+    private final String name;
+
+    MenuDrink(Drink Drink, String name) {
+        this.Drink = Drink;
+        this.name = name;
+    }
+
+    public Drink getDrink() {
+        return Drink;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+5. Теперь, для того чтобы добавить новое меню, необходимо создать новый класс , сделать его наследником Menu через extend  и все классы наследники от СommonMenu  вложить в папку ЕxtendMenu.  
+
+public enum MenuHotDrink extend Menu {  
+
+    LATTE(new Latte(), "Латте с сахаром"),  
+    CAPPUCCINO(new Cappuccino(), "Капучино с сахаром");  
+}  
+
+public enum MenuWaterNonCarbonzted extend Menu {
+
+    AQWA_1_L(new Aqwa_1_L(), "Негазированная вода AQWA 1 литр"),
+    BORJOMI_0_5_L(new Borjomi_0_5_L(), "Негазированная вода BORJOMI 0,5 литров");
+}
+
+6. Затем необходимо создать класс общего меню СommonMenu c помощью ArrayList.
+Например в общем едином меню СommonMenu будут находится блоки меню "MenuHotDrink" и меню "MenuWaterNonCarbonzted" и после этого можем передавать дальше...
+
+**" Если до этого момента у меня было правильно(или хотя бы близко к истине), то дальше у меня вопросы:мне хотелось сделать общее меню с различными подменю каждого продукта и передавать его дальше поэтапно в программе в Service, view, controller, чтобы не плодить проверки для каждого блока меню. Чтобы все дальнейшие действия проверок и методов были универсальными абстрактными для общего меню СommonMenu. Если верно это и будет у Вас возможность-можете или вы реализовать код программы на примере нашего ДЗ№2. Я без постоянных подсказок не смогу сделать,а пока спросишь и получишь ответ-проходит время и мысль теряется...В любом случае-Спасибо большое за курс!!!Было очень интересно!!!"**
+
+
+7. Создать в папке service  "универсальный" класс с одним общим Service, в котором находятся HotDrinkService и WaterNonCarbonztedService .
+
+8. Создать в папке view  "универсальный" класс с одним общим Response, например,  в котором находятся GetHotDrinkResponse и GetWaterNonCarbonztedResponse.
+
+9. Создать в папке controller  "универсальный" класс с одним общим controller, например,  в котором находятся VendingMachineController и VendingMachineControllerWaterNonCarbonzted. 
+
+
+
+<!--Для себя- комментарий из последней практики
+Чтобы создать новое меню других видов продуктов необходимо снова пробежаться по ВСЕЙ программе и произвести соответствующие изменения. Получается мы при добавлении нового меню будем проделывать одну и ту же работу, просто заниматься переписыванием кода с возможностью на то,что при каждом переписывании будут возникать ошибки кода, различные "баги", можем чтото не увидеть, можем что-то упустить. Для упрощения задачи необходимо:  
+1. Создать отдельный абстрактный класс(или сделать это через интерфейс) MENU, который будет выносить все общие элементы, необходимые для создания отдельно взятого меню, например для "MenuHotDrink" и для "MenuWaterNonCarbonzted".  
+Чтобы мы могли написать код,основываясь на этом типе, используя его абстрактные методы и потом при необходимости заменить меню, просто заменяем реализацию его метода на новое меню. Тееперь, для того чтобы добавить новое меню, нам необходимо создать новый класс для нашего меню, сделать его наследником MENU через extend и после этого можем передавать в наш репозиторий не переписывая код. Раньше везде мы бы поменяли тип, скорее всего методы и часть логики пришлось бы переписать. Теперь мы написали более общий код, подходящий для множества меню, которе имеют возможность наследовать MENU, после этого мы просто передаем в MENU нужное нам меню причем теперь в репозитории мы можем передавать разные меню при необходимости. -->
